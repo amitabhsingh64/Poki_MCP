@@ -80,18 +80,18 @@ async def get_pokemon_resource(name: str) -> Dict[str, Any]:
 
 
 @mcp.resource("pokemon/{name}/moves")
-async def get_pokemon_moves_resource(name: str, level: int = 50) -> Dict[str, Any]:
+async def get_pokemon_moves_resource(name: str) -> Dict[str, Any]:
     """
     Get all moves a Pokémon can learn, organized by learning method
     
     Args:
         name: Pokémon name
-        level: Maximum level for move learning (default 50)
     
     Returns:
-        Organized move data with learning methods and move details
+        Organized move data with learning methods and move details (up to level 50)
     """
     try:
+        level = 50  # Default level for move learning
         moves_data = await api_client.get_pokemon_moves(name.lower(), level)
         if not moves_data:
             return {"error": f"No moves found for Pokémon '{name}'"}
@@ -137,6 +137,74 @@ async def get_pokemon_moves_resource(name: str, level: int = 50) -> Dict[str, An
             "recommended_moveset": _get_recommended_moveset(moves_data)
         }
         
+    except Exception as e:
+        return {"error": f"Failed to fetch moves for {name}: {str(e)}"}
+
+
+@mcp.resource("pokemon/{name}/moves/level/{level}")
+async def get_pokemon_moves_at_level_resource(name: str, level: str) -> Dict[str, Any]:
+    """
+    Get all moves a Pokémon can learn up to a specific level
+    
+    Args:
+        name: Pokémon name
+        level: Maximum level as string (will be converted to int)
+    
+    Returns:
+        Organized move data with learning methods and move details
+    """
+    try:
+        level_int = int(level)
+        if not 1 <= level_int <= 100:
+            return {"error": "Level must be between 1 and 100"}
+            
+        moves_data = await api_client.get_pokemon_moves(name.lower(), level_int)
+        if not moves_data:
+            return {"error": f"No moves found for Pokémon '{name}'"}
+        
+        # Organize moves by learning method (same logic as above)
+        organized_moves = {
+            "level_up": [],
+            "machine": [],  # TM/HM moves
+            "egg": [],
+            "tutor": []
+        }
+        
+        for move in moves_data:
+            method = move["learn_method"]
+            move_info = {
+                "name": move["name"],
+                "type": move["type"],
+                "category": move["category"],
+                "power": move["power"],
+                "accuracy": move["accuracy"],
+                "pp": move["pp"],
+                "effect": move["effect"][:100] + "..." if len(move["effect"]) > 100 else move["effect"]
+            }
+            
+            if method == "level-up":
+                move_info["level"] = move["level_learned"]
+                organized_moves["level_up"].append(move_info)
+            elif method == "machine":
+                organized_moves["machine"].append(move_info)
+            elif method == "egg":
+                organized_moves["egg"].append(move_info)
+            elif method == "tutor":
+                organized_moves["tutor"].append(move_info)
+        
+        # Sort level-up moves by level
+        organized_moves["level_up"].sort(key=lambda x: x["level"])
+        
+        return {
+            "pokemon": name.title(),
+            "level": level_int,
+            "total_moves": len(moves_data),
+            "moves": organized_moves,
+            "recommended_moveset": _get_recommended_moveset(moves_data)
+        }
+        
+    except ValueError:
+        return {"error": f"Invalid level '{level}'. Must be a number between 1-100"}
     except Exception as e:
         return {"error": f"Failed to fetch moves for {name}: {str(e)}"}
 
