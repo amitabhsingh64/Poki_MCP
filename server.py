@@ -209,7 +209,7 @@ async def get_pokemon_moves_at_level_resource(name: str, level: str) -> Dict[str
         return {"error": f"Failed to fetch moves for {name}: {str(e)}"}
 
 
-@mcp.resource("types")
+@mcp.resource("pokemon/types")
 async def get_type_chart_resource() -> Dict[str, Any]:
     """
     Get complete type effectiveness chart and type information
@@ -230,7 +230,7 @@ async def get_type_chart_resource() -> Dict[str, Any]:
     }
 
 
-@mcp.resource("move/{name}")
+@mcp.resource("pokemon/move/{name}")
 async def get_move_resource(name: str) -> Dict[str, Any]:
     """
     Get detailed information about a specific move

@@ -130,14 +130,14 @@ resource: pokemon/{name}/moves?level=50
 # Returns: organized moves by learning method
 
 # Get detailed move information
-resource: move/{name}
+resource: pokemon/move/{name}
 # Returns: power, accuracy, effects, battle mechanics
 ```
 
 #### Type System
 ```python
 # Get complete type effectiveness chart
-resource: types
+resource: pokemon/types
 # Returns: all types, colors, effectiveness rules
 ```
 
