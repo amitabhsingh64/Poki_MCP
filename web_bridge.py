@@ -441,4 +441,31 @@ async def shutdown_event():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    
+    print("🔥⚡ Pokemon Battle Web Interface Starting ⚡🔥")
+    print("=" * 60)
+    print("\n📍 Server will be available at:")
+    print("   🌐 http://localhost:8000")
+    print("   🌐 http://127.0.0.1:8000")
+    print("\n🎮 Features:")
+    print("   ✅ Interactive Pokemon battle configuration")
+    print("   ✅ Real-time battle visualization")
+    print("   ✅ All 9 generations of Pokemon (1000+)")
+    print("   ✅ Authentic battle mechanics")
+    print("\n🚀 Starting server...")
+    print("   Press Ctrl+C to stop")
+    print("=" * 60)
+    
+    try:
+        uvicorn.run(
+            app, 
+            host="0.0.0.0",  # Bind to all interfaces
+            port=8000,
+            log_level="info"
+        )
+    except KeyboardInterrupt:
+        print("\n\n👋 Pokemon Battle Server stopped!")
+    except Exception as e:
+        print(f"\n❌ Server error: {e}")
+        print("\n💡 Try installing dependencies:")
+        print("   pip install fastapi uvicorn httpx aiosqlite pydantic")

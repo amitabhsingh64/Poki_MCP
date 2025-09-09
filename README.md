@@ -82,8 +82,10 @@ The MCP server runs on stdio transport for LLM communication.
 **For Web Interface Testing**:
 ```bash
 python web_bridge.py
+# Or use the launcher (auto-opens browser):
+python start_web.py
 ```
-Then open http://localhost:8000 in your browser.
+Then open **http://localhost:8000** in your browser (NOT http://0.0.0.0:8000).
 
 ## 🎮 Using the Web Interface
 
@@ -289,6 +291,12 @@ POKEAPI_TIMEOUT=30
 ## 🐛 Troubleshooting
 
 ### Common Issues
+
+**Web interface shows "This site can't be reached"**:
+- ✅ Use **http://localhost:8000** (NOT http://0.0.0.0:8000)
+- ✅ Try **http://127.0.0.1:8000** as alternative
+- ✅ Make sure the web server is running: `python web_bridge.py`
+- ✅ Check that port 8000 isn't being used by another application
 
 **"Pokemon not found" errors**:
 - Ensure internet connection for initial data fetch
