@@ -38,7 +38,7 @@ class BattleRequest(BaseModel):
 mcp = FastMCP("Pokemon Battle Server")
 
 
-@mcp.resource("pokemon/{name}")
+@mcp.resource("api/pokemon/{name}")
 async def get_pokemon_resource(name: str) -> Dict[str, Any]:
     """
     Get comprehensive Pokémon data including stats, types, and basic info
@@ -79,7 +79,7 @@ async def get_pokemon_resource(name: str) -> Dict[str, Any]:
         return {"error": f"Failed to fetch Pokémon data: {str(e)}"}
 
 
-@mcp.resource("pokemon/{name}/moves")
+@mcp.resource("api/pokemon/{name}/moves")
 async def get_pokemon_moves_resource(name: str) -> Dict[str, Any]:
     """
     Get all moves a Pokémon can learn, organized by learning method
@@ -141,7 +141,7 @@ async def get_pokemon_moves_resource(name: str) -> Dict[str, Any]:
         return {"error": f"Failed to fetch moves for {name}: {str(e)}"}
 
 
-@mcp.resource("pokemon/{name}/moves/level/{level}")
+@mcp.resource("api/pokemon/{name}/moves/level/{level}")
 async def get_pokemon_moves_at_level_resource(name: str, level: str) -> Dict[str, Any]:
     """
     Get all moves a Pokémon can learn up to a specific level
@@ -209,7 +209,7 @@ async def get_pokemon_moves_at_level_resource(name: str, level: str) -> Dict[str
         return {"error": f"Failed to fetch moves for {name}: {str(e)}"}
 
 
-@mcp.resource("pokemon/types")
+@mcp.resource("api/pokemon/types")
 async def get_type_chart_resource() -> Dict[str, Any]:
     """
     Get complete type effectiveness chart and type information
@@ -230,7 +230,7 @@ async def get_type_chart_resource() -> Dict[str, Any]:
     }
 
 
-@mcp.resource("pokemon/move/{name}")
+@mcp.resource("api/moves/{name}")
 async def get_move_resource(name: str) -> Dict[str, Any]:
     """
     Get detailed information about a specific move

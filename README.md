@@ -122,22 +122,26 @@ Then open **http://localhost:8000** in your browser (NOT http://0.0.0.0:8000).
 #### Pokémon Data
 ```python
 # Get comprehensive Pokémon information
-resource: pokemon/{name}
+resource: api/pokemon/{name}
 # Returns: stats, types, sprites, type effectiveness
 
 # Get available moves for a Pokémon
-resource: pokemon/{name}/moves?level=50
-# Returns: organized moves by learning method
+resource: api/pokemon/{name}/moves
+# Returns: organized moves by learning method (level 50 default)
+
+# Get moves for specific level
+resource: api/pokemon/{name}/moves/level/{level}
+# Returns: moves learnable up to specified level
 
 # Get detailed move information
-resource: pokemon/move/{name}
+resource: api/moves/{name}
 # Returns: power, accuracy, effects, battle mechanics
 ```
 
 #### Type System
 ```python
 # Get complete type effectiveness chart
-resource: pokemon/types
+resource: api/pokemon/types
 # Returns: all types, colors, effectiveness rules
 ```
 
@@ -177,7 +181,7 @@ tool: validate_pokemon_moveset
 **Asking about Pokémon**:
 ```
 User: "What are Charizard's weaknesses?"
-LLM → MCP Server: resource.read("pokemon/charizard")
+LLM → MCP Server: resource.read("api/pokemon/charizard")
 LLM ← MCP Server: {type_effectiveness: {weaknesses: ["water", "electric", "rock"]}}
 LLM → User: "Charizard is weak to Water, Electric, and Rock-type moves..."
 ```

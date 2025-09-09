@@ -56,11 +56,11 @@ def show_resource_examples():
     print("="*50)
     
     examples = [
-        ("pokemon/pikachu", "Get Pikachu's data"),
-        ("pokemon/pikachu/moves", "Get Pikachu's moves (level 50)"),
-        ("pokemon/pikachu/moves/level/25", "Get Pikachu's moves up to level 25"),
-        ("pokemon/types", "Get type effectiveness chart"),
-        ("pokemon/move/thunderbolt", "Get Thunderbolt move data")
+        ("api/pokemon/pikachu", "Get Pikachu's data"),
+        ("api/pokemon/pikachu/moves", "Get Pikachu's moves (level 50)"),
+        ("api/pokemon/pikachu/moves/level/25", "Get Pikachu's moves up to level 25"),
+        ("api/pokemon/types", "Get type effectiveness chart"),
+        ("api/moves/thunderbolt", "Get Thunderbolt move data")
     ]
     
     for uri, description in examples:
