@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon Battle Simulator</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🔥 Pokémon Battle Simulator ⚡</h1>
+            <p>Configure your Pokémon and battle!</p>
+        </header>
+
+        <!-- Battle Setup -->
+        <div class="battle-setup" id="battleSetup">
+            <div class="pokemon-config">
+                <!-- Pokemon 1 Configuration -->
+                <div class="pokemon-section">
+                    <h2>Pokémon 1</h2>
+                    <div class="pokemon-preview" id="pokemon1Preview">
+                        <img src="/static/placeholder.png" alt="Pokemon 1" class="pokemon-sprite" id="pokemon1Sprite">
+                        <div class="pokemon-info" id="pokemon1Info">
+                            <div class="pokemon-name">Select a Pokémon</div>
+                            <div class="pokemon-types"></div>
+                            <div class="pokemon-stats"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="config-form">
+                        <div class="form-group">
+                            <label for="pokemon1Name">Pokémon:</label>
+                            <input type="text" id="pokemon1Name" placeholder="Enter Pokémon name (e.g., pikachu)" list="pokemonSuggestions1">
+                            <datalist id="pokemonSuggestions1"></datalist>
+                            <button type="button" onclick="loadPokemon(1)" class="load-btn">Load</button>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="pokemon1Level">Level:</label>
+                            <input type="range" id="pokemon1Level" min="1" max="100" value="50">
+                            <span id="pokemon1LevelValue">50</span>
+                        </div>
+                        
+                        <div class="moves-section">
+                            <h3>Moves (Select 4):</h3>
+                            <div class="move-slots">
+                                <div class="move-slot">
+                                    <select id="pokemon1Move1" class="move-select">
+                                        <option value="">Select Move 1</option>
+                                    </select>
+                                    <div class="move-info" id="pokemon1Move1Info"></div>
+                                </div>
+                                <div class="move-slot">
+                                    <select id="pokemon1Move2" class="move-select">
+                                        <option value="">Select Move 2</option>
+                                    </select>
+                                    <div class="move-info" id="pokemon1Move2Info"></div>
+                                </div>
+                                <div class="move-slot">
+                                    <select id="pokemon1Move3" class="move-select">
+                                        <option value="">Select Move 3</option>
+                                    </select>
+                                    <div class="move-info" id="pokemon1Move3Info"></div>
+                                </div>
+                                <div class="move-slot">
+                                    <select id="pokemon1Move4" class="move-select">
+                                        <option value="">Select Move 4</option>
+                                    </select>
+                                    <div class="move-info" id="pokemon1Move4Info"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VS Divider -->
+                <div class="vs-divider">
+                    <div class="vs-text">VS</div>
+                </div>
+
+                <!-- Pokemon 2 Configuration -->
+                <div class="pokemon-section">
+                    <h2>Pokémon 2</h2>
+                    <div class="pokemon-preview" id="pokemon2Preview">
+                        <img src="/static/placeholder.png" alt="Pokemon 2" class="pokemon-sprite" id="pokemon2Sprite">
+                        <div class="pokemon-info" id="pokemon2Info">
+                            <div class="pokemon-name">Select a Pokémon</div>
+                            <div class="pokemon-types"></div>
+                            <div class="pokemon-stats"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="config-form">
+                        <div class="form-group">
+                            <label for="pokemon2Name">Pokémon:</label>
+                            <input type="text" id="pokemon2Name" placeholder="Enter Pokémon name (e.g., charizard)" list="pokemonSuggestions2">
+                            <datalist id="pokemonSuggestions2"></datalist>
+                            <button type="button" onclick="loadPokemon(2)" class="load-btn">Load</button>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="pokemon2Level">Level:</label>
+                            <input type="range" id="pokemon2Level" min="1" max="100" value="50">
+                            <span id="pokemon2LevelValue">50</span>
+                        </div>
+                        
+                        <div class="moves-section">
+                            <h3>Moves (Select 4):</h3>
+                            <div class="move-slots">
+                                <div class="move-slot">
+                                    <select id="pokemon2Move1" class="move-select">
+                                        <option value="">Select Move 1</option>
+                                    </select>
+                                    <div class="move-info" id="pokemon2Move1Info"></div>
+                                </div>
+                                <div class="move-slot">
+                                    <select id="pokemon2Move2" class="move-select">
+                                        <option value="">Select Move 2</option>
+                                    </select>
+                                    <div class="move-info" id="pokemon2Move2Info"></div>
+                                </div>
+                                <div class="move-slot">
+                                    <select id="pokemon2Move3" class="move-select">
+                                        <option value="">Select Move 3</option>
+                                    </select>
+                                    <div class="move-info" id="pokemon2Move3Info"></div>
+                                </div>
+                                <div class="move-slot">
+                                    <select id="pokemon2Move4" class="move-select">
+                                        <option value="">Select Move 4</option>
+                                    </select>
+                                    <div class="move-info" id="pokemon2Move4Info"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Battle Controls -->
+            <div class="battle-controls">
+                <button type="button" id="validateBtn" onclick="validateBattle()" class="btn btn-secondary">
+                    Validate Configuration
+                </button>
+                <button type="button" id="battleBtn" onclick="startBattle()" class="btn btn-primary" disabled>
+                    Start Battle!
+                </button>
+                <button type="button" id="resetBtn" onclick="resetBattle()" class="btn btn-secondary">
+                    Reset
+                </button>
+            </div>
+
+            <!-- Validation Results -->
+            <div class="validation-results" id="validationResults" style="display: none;">
+                <h3>Validation Results:</h3>
+                <ul id="validationList"></ul>
+            </div>
+        </div>
+
+        <!-- Battle Arena (Hidden initially) -->
+        <div class="battle-arena" id="battleArena" style="display: none;">
+            <div class="battle-header">
+                <h2>Battle in Progress</h2>
+                <div class="turn-counter">Turn: <span id="currentTurn">1</span></div>
+            </div>
+
+            <!-- Battle Field -->
+            <div class="battle-field">
+                <div class="pokemon-battle-sprite left">
+                    <img id="battleSprite1" src="" alt="Pokemon 1">
+                    <div class="pokemon-battle-info">
+                        <div class="pokemon-battle-name" id="battleName1"></div>
+                        <div class="health-bar">
+                            <div class="health-fill" id="healthBar1"></div>
+                            <div class="health-text" id="healthText1"></div>
+                        </div>
+                        <div class="status-effects" id="statusEffects1"></div>
+                    </div>
+                </div>
+
+                <div class="pokemon-battle-sprite right">
+                    <img id="battleSprite2" src="" alt="Pokemon 2">
+                    <div class="pokemon-battle-info">
+                        <div class="pokemon-battle-name" id="battleName2"></div>
+                        <div class="health-bar">
+                            <div class="health-fill" id="healthBar2"></div>
+                            <div class="health-text" id="healthText2"></div>
+                        </div>
+                        <div class="status-effects" id="statusEffects2"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Battle Log -->
+            <div class="battle-log-container">
+                <h3>Battle Log</h3>
+                <div class="battle-log" id="battleLog"></div>
+            </div>
+
+            <!-- Battle Controls -->
+            <div class="battle-controls">
+                <button type="button" id="backToSetupBtn" onclick="backToSetup()" class="btn btn-secondary">
+                    Back to Setup
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Screen (Hidden initially) -->
+        <div class="results-screen" id="resultsScreen" style="display: none;">
+            <div class="results-content">
+                <h2 id="battleWinner">Battle Complete!</h2>
+                <div class="winner-announcement" id="winnerAnnouncement"></div>
+                
+                <div class="battle-summary">
+                    <h3>Battle Summary</h3>
+                    <div class="summary-stats" id="summaryStats"></div>
+                </div>
+
+                <div class="results-controls">
+                    <button type="button" onclick="newBattle()" class="btn btn-primary">
+                        New Battle
+                    </button>
+                    <button type="button" onclick="backToSetup()" class="btn btn-secondary">
+                        Back to Setup
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+            <div class="loading-content">
+                <div class="pokeball-spinner"></div>
+                <div class="loading-text" id="loadingText">Loading...</div>
+            </div>
+        </div>
+
+        <!-- Error Messages -->
+        <div class="error-message" id="errorMessage" style="display: none;">
+            <div class="error-content">
+                <h3>Error</h3>
+                <p id="errorText"></p>
+                <button type="button" onclick="hideError()" class="btn btn-secondary">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/static/battle.js"></script>
+</body>
+</html>
